@@ -8,6 +8,9 @@ app.use(bodyParser.json());
 
 app.use('/api/chatroom', require('./routes/chatroom'));
 
+app.use('/chatroom', chatroomRoutes);
+app.use('/auth', authRoutes);
+
 mongoose.connect('mongodb://localhost:27017/chatroom', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.listen(PORT, () => {
