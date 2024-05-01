@@ -1,4 +1,7 @@
-<p>home works!</p>
-
-<!-- add username input box -->
-<a routerLink="chat"><button>enter chatroom</button></a>
+<div class="home-container">
+    <h1>Welcome to Our Chatroom!</h1>
+    <p>Please enter as a guest or login (feature coming soon).</p>
+    <input type="text" placeholder="Enter your username" [(ngModel)]="username"/>
+    <a routerLink="/chat"><button>Enter Chatroom</button></a>
+    <!-- Future login form can go here -->
+</div>
