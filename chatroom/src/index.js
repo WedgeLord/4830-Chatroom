@@ -13,6 +13,21 @@ app.use('/auth', authRoutes);
 
 mongoose.connect('mongodb://localhost:27017/chatroom', { useNewUrlParser: true, useUnifiedTopology: true });
 
+app.get('/user/:user', (req, res) => {
+    targetUser = req.params.user
+    // add code for getting database chat history of user
+    chats = {
+        // {
+            // sender:,
+            // chats: 
+        // }
+    };
+    res.status(201).json({
+        message: "Chat history updated successfully",
+        history: chats
+    });
+});
+
 app.post('/user/:targetUser', (req, res) => {
     targetUser = req.params.targetUser
     chat = req.message;
