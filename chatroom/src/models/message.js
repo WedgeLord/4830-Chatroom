@@ -7,5 +7,12 @@ const messageSchema = new mongoose.Schema({
     timestamp: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Message', messageSchema);
+var Message;
+if (mongoose.models.Message) {
+    Message = mongoose.model('Message');
+} else {
+    Message = mongoose.model('Message', messageSchema);
+}
+
+module.exports = Message;
 

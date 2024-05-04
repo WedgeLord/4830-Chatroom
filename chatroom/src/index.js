@@ -10,10 +10,6 @@ const MessageSchema = require('./models/message.js')
 
 app.use(bodyParser.json());
 
-app.use('/api/chatroom', require('./routes/chatroom'));
-app.use('/chatroom', chatroomRoutes);
-app.use('/auth', authRoutes);
-
 
 // CORS
 
@@ -144,6 +140,10 @@ app.post('/user/:targetUser', (req, res) => {
         message: "Chat sent to user " + targetUser + " successfully"
     });
 });
+
+app.use('/api/chatroom', require('./routes/chatroom'));
+app.use('/chatroom', chatroomRoutes);
+app.use('/auth', authRoutes);
 */
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
