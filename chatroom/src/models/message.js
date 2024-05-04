@@ -7,7 +7,7 @@ const messageSchema = new mongoose.Schema({
     timestamp: { type: Date, default: Date.now }
 });
 
-var Message;
+let Message;
 if (mongoose.models.Message) {
     Message = mongoose.model('Message');
 } else {

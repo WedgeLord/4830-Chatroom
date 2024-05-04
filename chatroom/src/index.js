@@ -5,8 +5,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const configs = require('./config.js');
 const bcrypt = require('bcrypt');
-const UserSchema = require('./models/user.js')
-const MessageSchema = require('./models/message.js')
+const User = require('./models/user.js')
+const Message = require('./models/message.js')
 
 app.use(bodyParser.json());
 
@@ -22,7 +22,6 @@ app.use((req, res, next)=>{
   res.setHeader("Access-Control-Allow-Methods",
   "GET, POST, PATCH, DELETE, OPTIONS"
   );
-  console.log('Middleware');
   next();
 })
 
@@ -34,14 +33,12 @@ mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: 
   .then(() => console.log('Database connected successfully'))
   .catch(err => console.error('Database connection error:', err));
 
-const User = mongoose.model('User', UserSchema);
-const Message = mongoose.model('Message', MessageSchema);
-
 
 // API Endpoints
 
 app.post('/createaccount', async (req, res) => {
   try {
+    console.log('API creating account');
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
@@ -53,6 +50,7 @@ app.post('/createaccount', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  console.log('API logging in');
   const user = await User.findOne({ username: req.body.username });
   if (user == null) {
     return res.status(400).send('Cannot find user');
@@ -70,7 +68,8 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/chats/:user', async (req, res) => {
-    targetUser = req.params.user
+  targetUser = req.params.user
+  console.log('API getting chats for ' + targetUser);
   try {
     const messages = await Message.find({
       sender: req.query.sender,
@@ -85,6 +84,7 @@ app.get('/chats/:user', async (req, res) => {
 
 app.post('/send', async (req, res) => {
   try {
+    console.log('API sending');
     const message = new Message({
       sender: req.body.sender,
       recipient: req.body.recipient,
@@ -99,6 +99,7 @@ app.post('/send', async (req, res) => {
 });
 
 app.get('/userexists/:username', async (req, res) => {
+  console.log('API checking if user exists');
   const username = req.params.username;
   try {
     const user = await User.findOne({ username: username });
