@@ -11,4 +11,9 @@ import { FormsModule } from '@angular/forms';  // Import FormsModule for ngModel
 })
 export class HomeComponent {
   username: string = '';  // Store username input
+
+  loginAttempt(){
+
+  }
+
 }
