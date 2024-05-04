@@ -6,5 +6,12 @@ const UserSchema = new Schema({
   password: String
 });
 
-module.exports = mongoose.model('User', UserSchema);
+let User;
+if (mongoose.models.User) {
+    User = mongoose.model('User');
+} else {
+    User = mongoose.model('User', UserSchema);
+}
+
+module.exports = User;
 
