@@ -43,7 +43,6 @@ app.post('/createaccount', async (req, res) => {
     if (user != null) {
       res.status(400).send('User already exists');
     }
-
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
