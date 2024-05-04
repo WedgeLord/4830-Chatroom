@@ -25,10 +25,12 @@ export class ChatroomService {
     });
   }
 
-  sendMessage(chat: Post) {
-    this.http.post<{message: String}>("http://localhost:3000/send", chat).subscribe( (res) => {
+  sendMessage(sender: string, recipient: string, content: string) {
+
+    const post: Post={sender: sender, recipient: recipient, content: content, time: Date() };
+    this.http.post<{message: String}>("http://localhost:3000/send", post).subscribe( (res) => {
       // this code triggers only if post-request is successful
-      this.posts.push(chat);
+      this.posts.push(post);
       this.postsUpdate.next([...this.posts]);
       // let targetUser: String = chat.recipient;
       // if (this.posts.has(targetUser)) {
@@ -40,6 +42,10 @@ export class ChatroomService {
       // }
       console.log(res.message);
     });
+  }
+
+  getPostUpdateListener() {
+    return this.postsUpdate.asObservable();
   }
 
 }

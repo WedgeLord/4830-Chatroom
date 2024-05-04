@@ -4,5 +4,5 @@ export interface Post{
     sender: string,
     recipient: string,
     content: string,
-    time: Date
+    time: string
 }

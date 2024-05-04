@@ -17,7 +17,9 @@ import { ChatroomService } from '../chatroom.service'; // service for the chatro
 export class ChatroomComponent implements OnInit, OnDestroy {
 
   posts: Post[]=[];
-  private postsSub: Subscription;
+  private postsSub: Subscription = new Subscription;
+  sender: string = "defaultSender";
+  recipient: string = "defaultRecipient";
 
   constructor(public chatService: ChatroomService) {
 
@@ -25,7 +27,7 @@ export class ChatroomComponent implements OnInit, OnDestroy {
 
   ngOnInit(){
     // we need to define these two variables
-    this.chatService.getMessages(user, recipient);
+    this.chatService.getMessages(this.sender, this.recipient);
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;
     });
