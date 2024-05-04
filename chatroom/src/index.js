@@ -50,7 +50,7 @@ app.post('/createaccount', async (req, res) => {
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
     res.status(201).send('User created successfully');
-  } 
+  }
   catch {
     res.status(500).send('Error creating user');
   }
@@ -67,7 +67,7 @@ app.post('/login', async (req, res) => {
     } else {
       res.send('Not Allowed');
     }
-  } 
+  }
   catch {
     res.status(500).send();
   }
@@ -81,7 +81,7 @@ app.get('/chats/:user', async (req, res) => {
       recipient: req.query.recipient
     });
     res.status(200).json(messages);
-  } 
+  }
   catch {
     res.status(500).send('Error retrieving messages');
   }
@@ -96,11 +96,26 @@ app.post('/send', async (req, res) => {
     });
     await message.save();
     res.status(201).send('Message sent successfully');
-  } 
+  }
   catch {
     res.status(500).send('Error sending message');
   }
 });
+
+app.get('/userexists/:username', async (req, res) => {
+  const username = req.params.username;
+  try {
+    const user = await User.findOne({ username: username });
+    if (user != null) {
+      res.status(200).send('User exists');
+    } else {
+      res.status(404).send('User does not exist');
+    }
+  } catch {
+    res.status(500).send('Error checking user');
+  }
+});
+
 
 /*
 
