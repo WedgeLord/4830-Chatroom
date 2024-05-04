@@ -25,6 +25,16 @@ export class ChatroomComponent implements OnInit, OnDestroy {
 
   }
 
+  createAccount(username: string, password: string) {
+    this.sender = username;
+    this.chatService.createAccount(username, password);
+  }
+
+  login(username: string, password: string) {
+    this.sender = username;
+    this.chatService.login(username, password);
+  }
+
   onSendMessage(form: NgForm) {
     if (this.recipient != "") {
       let chat: Post = {
