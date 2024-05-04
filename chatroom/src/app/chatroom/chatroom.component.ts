@@ -18,20 +18,28 @@ export class ChatroomComponent implements OnInit, OnDestroy {
 
   posts: Post[]=[];
   private postsSub: Subscription = new Subscription;
-  sender: string = "defaultSender";
-  recipient: string = "defaultRecipient";
+  sender: string = "";
+  recipient: string = "";
 
   constructor(public chatService: ChatroomService) {
 
   }
 
   onSendMessage(form: NgForm) {
-    this.chatService.sendMessage(form.value.sender, form.value.recipient, form.value.content);
-    form.resetForm;
+    if (this.recipient != "") {
+      let chat: Post = {
+        sender: this.sender,
+        recipient: this.recipient,
+        content: form.value.content,
+        time: Date.now().toString(),  // idk the best way to get time, this just counts the milliseconds after midnight
+      };
+      // this.chatService.sendMessage(form.value.sender, form.value.recipient, form.value.content);
+      this.chatService.sendMessage(chat);
+      form.resetForm;
+  }
   }
 
   ngOnInit(){
-    // we need to define these two variables
     this.chatService.getMessages(this.sender, this.recipient);
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;

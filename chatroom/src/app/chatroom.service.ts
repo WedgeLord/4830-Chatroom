@@ -10,7 +10,6 @@ import { Subject } from 'rxjs';
 export class ChatroomService {
   username: String = "";
   private posts: Post[] = []; // our array of posts
-  // private posts: Map<String, Post[]> = new Map(); // our map of posts
 
   private postsUpdate = new Subject<Post[]>() // subject to track posts
 
@@ -25,21 +24,14 @@ export class ChatroomService {
     });
   }
 
-  sendMessage(sender: string, recipient: string, content: string) {
+  // sendMessage(sender: string, recipient: string, content: string) {
+  sendMessage(post: Post) {
 
-    const post: Post={sender: sender, recipient: recipient, content: content, time: Date() };
+    // const post: Post={sender: sender, recipient: recipient, content: content, time: Date() };
     this.http.post<{message: String}>("http://localhost:3000/send", post).subscribe( (res) => {
       // this code triggers only if post-request is successful
       this.posts.push(post);
       this.postsUpdate.next([...this.posts]);
-      // let targetUser: String = chat.recipient;
-      // if (this.posts.has(targetUser)) {
-      //   this.posts.get(targetUser)!.push(chat);
-      //   // CODE FOR SUBJECT<> UPDATE
-      // }
-      // else {
-      //   this.posts.set(targetUser, [chat,]);
-      // }
       console.log(res.message);
     });
   }
