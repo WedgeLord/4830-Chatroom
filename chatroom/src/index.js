@@ -39,6 +39,11 @@ mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: 
 app.post('/createaccount', async (req, res) => {
   try {
     console.log('API creating account');
+    const userExists = await User.findOne({ username: req.body.username });
+    if (user != null) {
+      res.status(400).send('User already exists');
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
