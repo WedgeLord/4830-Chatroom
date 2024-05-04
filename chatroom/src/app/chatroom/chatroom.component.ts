@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';  // If using forms within the chatroom
+import { FormsModule, NgForm } from '@angular/forms';  // If using forms within the chatroom
 import { RouterLink } from '@angular/router';  // If using RouterLink within the chatroom
 
 import { Post } from '../chatroom.models'; // interface/model of post
@@ -23,6 +23,11 @@ export class ChatroomComponent implements OnInit, OnDestroy {
 
   constructor(public chatService: ChatroomService) {
 
+  }
+
+  onSendMessage(form: NgForm) {
+    this.chatService.sendMessage(form.value.sender, form.value.recipient, form.value.content);
+    form.resetForm;
   }
 
   ngOnInit(){
