@@ -50,7 +50,8 @@ app.post('/createaccount', async (req, res) => {
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
     res.status(201).send('User created successfully');
-  } catch {
+  } 
+  catch {
     res.status(500).send('Error creating user');
   }
 });
@@ -66,19 +67,22 @@ app.post('/login', async (req, res) => {
     } else {
       res.send('Not Allowed');
     }
-  } catch {
+  } 
+  catch {
     res.status(500).send();
   }
 });
 
-app.get('/chats', async (req, res) => {
+app.get('/chats/:user', async (req, res) => {
+    targetUser = req.params.user
   try {
     const messages = await Message.find({
       sender: req.query.sender,
       recipient: req.query.recipient
     });
     res.status(200).json(messages);
-  } catch {
+  } 
+  catch {
     res.status(500).send('Error retrieving messages');
   }
 });
@@ -86,13 +90,14 @@ app.get('/chats', async (req, res) => {
 app.post('/send', async (req, res) => {
   try {
     const message = new Message({
-      content: req.body.content,
       sender: req.body.sender,
-      recipient: req.body.recipient
+      recipient: req.body.recipient,
+      content: req.body.content,
     });
     await message.save();
     res.status(201).send('Message sent successfully');
-  } catch {
+  } 
+  catch {
     res.status(500).send('Error sending message');
   }
 });

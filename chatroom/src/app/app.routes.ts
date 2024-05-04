@@ -5,8 +5,9 @@ import { ChatroomComponent } from './chatroom/chatroom.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent,  },
-    { path: 'chat', component: ChatroomComponent,  },
-    { path: 'user/*', redirectTo: '/chat', pathMatch: 'full' },
+    { path: 'chat*', component: ChatroomComponent,  },
+    { path: 'send*', component: ChatroomComponent,  },
+    { path: 'user*', redirectTo: '/chat', pathMatch: 'full' },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: '**', component: ErrorPageComponent,  }
 ];

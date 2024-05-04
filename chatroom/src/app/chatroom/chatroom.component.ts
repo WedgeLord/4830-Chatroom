@@ -17,24 +17,22 @@ import { ChatroomService } from '../chatroom.service'; // service for the chatro
 export class ChatroomComponent implements OnInit, OnDestroy {
 
   posts: Post[]=[];
-  //private postsSub: Subscription;
+  private postsSub: Subscription;
 
   constructor(public chatService: ChatroomService) {
 
   }
 
   ngOnInit(){
-    // RE ADD THIS WHEN THE SERVICE FILE IS READY TO HANDLE SUBSCRIPTIONS OF POSTS
-    /*
-    this.chatService.getPosts();
+    // we need to define these two variables
+    this.chatService.getMessages(user, recipient);
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;
     });
-    */
   }
 
   ngOnDestroy() {
-    //this.postsSub.unsubscribe();
+    this.postsSub.unsubscribe();
   }
   
 }

@@ -1,7 +1,8 @@
 
 // interface for whatever our "posts" will be
 export interface Post{
-    user: string,
+    sender: string,
+    recipient: string,
     content: string,
     time: Date
 }

@@ -9,34 +9,35 @@ import { Subject } from 'rxjs';
 })
 export class ChatroomService {
   username: String = "";
-  // private posts: Post[] = []; // our array of posts
-  private posts: Map<String, Post[]> = new Map(); // our map of posts
+  private posts: Post[] = []; // our array of posts
+  // private posts: Map<String, Post[]> = new Map(); // our map of posts
 
   private postsUpdate = new Subject<Post[]>() // subject to track posts
 
   constructor(private http: HttpClient) {}
 
-  getMessages(user: String) {
-    this.http.get<{message: String, history: [{sender: String, chats: Post[]}]}>("http://localhost:3000/" + user).subscribe( (res) => {
-      // a little inefficient, but we'll just update all chats even if nothing has changed
-      res.history.forEach( (convo) => {
-        this.posts.set(convo.sender, convo.chats);
-      })
+  getMessages(sender: String, recipient: String) {
+    this.http.get< {message: String, chats: Post[] }>("localhost:3000/chats/" + sender + "/" + recipient).subscribe( (res) => {
+      this.posts = res.chats;
+      this.postsUpdate.next([...this.posts]);
       console.log(res.message);
+      console.log(res.chats);
     });
   }
 
-  sendMessage(targetUser: String, chat: Post) {
-    //this.http.post<{target: String, message: Post}>("http://localhost:3000/", {target: targetUser, message: chat}).subscribe( (res) => {
-    this.http.post<{message: Post}>("localhost:3000/user/" + targetUser, chat).subscribe( (res) => {
+  sendMessage(chat: Post) {
+    this.http.post<{message: String}>("http://localhost:3000/send", chat).subscribe( (res) => {
       // this code triggers only if post-request is successful
-      if (this.posts.has(targetUser)) {
-        this.posts.get(targetUser)!.push(chat);
-        // CODE FOR SUBJECT<> UPDATE
-      }
-      else {
-        this.posts.set(targetUser, [chat,]);
-      }
+      this.posts.push(chat);
+      this.postsUpdate.next([...this.posts]);
+      // let targetUser: String = chat.recipient;
+      // if (this.posts.has(targetUser)) {
+      //   this.posts.get(targetUser)!.push(chat);
+      //   // CODE FOR SUBJECT<> UPDATE
+      // }
+      // else {
+      //   this.posts.set(targetUser, [chat,]);
+      // }
       console.log(res.message);
     });
   }
