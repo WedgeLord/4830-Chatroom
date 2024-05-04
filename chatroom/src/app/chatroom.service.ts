@@ -3,20 +3,22 @@ import { HttpClient } from '@angular/common/http';
 
 import { Post } from './chatroom.models'; // interface model
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router'
 
 @Injectable ({
   providedIn: 'root'
 })
+
 export class ChatroomService {
-  username: String = "";
+  username: string = "";
   private posts: Post[] = []; // our array of posts
 
   private postsUpdate = new Subject<Post[]>() // subject to track posts
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  getMessages(sender: String, recipient: String) {
-    this.http.get< {message: String, chats: Post[] }>("localhost:3000/chats/" + sender + "/" + recipient).subscribe( (res) => {
+  getMessages(sender: string, recipient: string) {
+    this.http.get< {message: string, chats: Post[] }>("localhost:3000/chats/" + sender + "/" + recipient).subscribe( (res) => {
       this.posts = res.chats;
       this.postsUpdate.next([...this.posts]);
       console.log(res.message);
@@ -26,12 +28,26 @@ export class ChatroomService {
 
   // sendMessage(sender: string, recipient: string, content: string) {
   sendMessage(post: Post) {
-
-    // const post: Post={sender: sender, recipient: recipient, content: content, time: Date() };
-    this.http.post<{message: String}>("http://localhost:3000/send", post).subscribe( (res) => {
-      // this code triggers only if post-request is successful
+    this.http.post<{message: string}>("http://localhost:3000/send", post).subscribe( (res) => {
+      // if post succeeds, we update our chat history
       this.posts.push(post);
       this.postsUpdate.next([...this.posts]);
+      console.log(res.message);
+    });
+  }
+
+  login(username: string, password: string) {
+    this.http.post<{message: string}>("http://localhost:3000/login", { username: username, password: password}).subscribe( (res) => {
+      // if login succeeds, we navigate to chatroom
+      this.router.navigate(["http://localhost:3000/chat"]);
+      console.log(res.message);
+  });
+  }
+
+  createAccount(username: string, password: string) {
+    this.http.post<{message: string}>("http://localhost:3000/createaccount", { username: username, password: password}).subscribe( (res) => {
+      // if account creation succeeds, we navigate to chatroom
+      this.router.navigate(["http://localhost:3000/chat"]);
       console.log(res.message);
     });
   }

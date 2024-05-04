@@ -71,13 +71,16 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/chats/:user', async (req, res) => {
-  targetUser = req.params.user
+app.get('/chats/:user/:target', async (req, res) => {
+  sender = req.params.user;
+  recipient = req.params.target;
   console.log('API getting chats for ' + targetUser);
   try {
     const messages = await Message.find({
-      sender: req.query.sender,
-      recipient: req.query.recipient
+    //   sender: req.query.sender,
+    //   recipient: req.query.recipient
+        sender: sender,
+        recipient: recipient
     });
     res.status(200).json(messages);
   }
