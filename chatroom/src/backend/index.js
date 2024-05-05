@@ -146,3 +146,4 @@ app.get('/userexists/:username', async (req, res) => {
   }
 });
 
+module.exports = app

@@ -12,8 +12,10 @@ import { Router } from '@angular/router'
 export class ChatroomService {
   username: string = "";
   private posts: Post[] = []; // our array of posts
+  private users: String[] = []; //our array of users
 
   private postsUpdate = new Subject<Post[]>() // subject to track posts
+  private usersUpdate = new Subject<String[]>() // subject to track users
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -40,7 +42,10 @@ export class ChatroomService {
 
   getUsers() {
     return this.http.get< {message: string, users: string[] }>("http://localhost:3000/directory").subscribe( (res) => {
+      this.users = res.users;
+      this.usersUpdate.next([...this.users]);
       console.log(res.message);
+      console.log(res.users);
       // update subject for user list
   });
 }
