@@ -41,7 +41,7 @@ app.post('/createaccount', async (req, res) => {
   try {
     console.log('API creating account');
     const userExists = await User.findOne({ username: req.body.username });
-    if (user != null) {
+    if (userExists != null) {
       res.status(400).send('User already exists');
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -49,7 +49,8 @@ app.post('/createaccount', async (req, res) => {
     await user.save();
     res.status(201).send('User created successfully');
   }
-  catch {
+  catch (error) {
+    console.log(error);
     res.status(500).send('Error creating user');
   }
 });
@@ -67,7 +68,8 @@ app.post('/login', async (req, res) => {
       res.status(500).send('Not Allowed');
     }
   }
-  catch {
+  catch (error) {
+    console.log(error);
     res.status(500).send();
   }
 });
@@ -85,7 +87,8 @@ app.get('/history/:user/:target', async (req, res) => {
     });
     res.status(200).json(messages);
   }
-  catch {
+  catch (error) {
+    console.log(error);
     res.status(500).send('Error retrieving messages');
   }
 });
@@ -101,7 +104,8 @@ app.post('/send', async (req, res) => {
     await message.save();
     res.status(201).send('Message sent successfully');
   }
-  catch {
+  catch (error) {
+    console.log(error);
     res.status(500).send('Error sending message');
   }
 });
@@ -116,7 +120,8 @@ app.get('/userexists/:username', async (req, res) => {
     } else {
       res.status(404).send('User does not exist');
     }
-  } catch {
+  } catch (error) {
+    console.log(error);
     res.status(500).send('Error checking user');
   }
 });
