@@ -107,7 +107,7 @@ app.get('/history/:user/:target', async (req, res) => {
         sender: sender,
         recipient: recipient
     }).sort({time: 1});
-    res.status(200).json(messages);
+    res.status(200).send({message: "Got chat history", chats: messages});
   }
   catch (error) {
     console.log(error);

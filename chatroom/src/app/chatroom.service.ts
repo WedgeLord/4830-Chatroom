@@ -21,6 +21,7 @@ export class ChatroomService {
 
   getMessages(recipient: String) {
     this.http.get< {message: String, chats: Post[] }>("http://localhost:3000/history/" + this.username + "/" + recipient).subscribe( (res) => {
+      //console.log(res);
       this.posts = res.chats;
       // this.posts.sort((a, b) => { return a.time - b.time });
       this.postsUpdate.next([...this.posts]);
@@ -42,7 +43,7 @@ export class ChatroomService {
 
   getUsers() {
     return this.http.get< {message: String, users: String[] }>("http://localhost:3000/directory").subscribe( (res) => {
-      console.log(res.users);
+      //console.log(res.users);
       this.users = res.users;
       this.usersUpdate.next([...this.users]);
       console.log(res.message);
