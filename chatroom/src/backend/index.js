@@ -3,10 +3,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const configs = require('./config.js');
+const configs = require('../config.js');
 const bcrypt = require('bcrypt');
-const User = require('./models/user.js')
-const Message = require('./models/message.js')
+const User = require('../models/user.js')
+const Message = require('../models/message.js')
 
 app.use(bodyParser.json());
 
@@ -153,6 +153,5 @@ app.use('/api/chatroom', require('./routes/chatroom'));
 app.use('/chatroom', chatroomRoutes);
 app.use('/auth', authRoutes);
 */
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+module.exports = app

@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start-backend": "node ./src/index.js"
+    "start-backend": "node ./src/backend/server.js"
   },
   "private": true,
   "dependencies": {
