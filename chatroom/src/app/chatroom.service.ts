@@ -67,7 +67,7 @@ export class ChatroomService {
         (res) => {
           // if login succeeds, we navigate to chatroom
           this.username = username;
-          // this.router.navigate(["/chat"]);
+          this.router.navigate(["/chat"]);
           console.log(res.message);
           resolve(true);
         },
@@ -89,7 +89,7 @@ export class ChatroomService {
     this.http.post<{message: string}>("http://localhost:3000/createaccount", { username: username, password: password}).subscribe( (res) => {
       // if account creation succeeds, we navigate to chatroom
       this.username = username;
-      // this.router.navigate(["/chat"]);
+      this.router.navigate(["/chat"]);
       console.log(res.message);
     });
   }

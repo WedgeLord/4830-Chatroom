@@ -42,16 +42,18 @@ app.post('/createaccount', async (req, res) => {
     console.log('API creating account');
     const userExists = await User.findOne({ username: req.body.username });
     if (userExists != null) {
-      res.status(400).send('User already exists');
+      res.status(400).send({ message: 'User already exists' });
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new User({ username: req.body.username, password: hashedPassword });
-    await user.save();
-    res.status(201).send('User created successfully');
+    else {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const user = new User({ username: req.body.username, password: hashedPassword });
+      await user.save();
+      res.status(201).send({ message: 'User created successfully' });
+    }
   }
   catch (error) {
     console.log(error);
-    res.status(500).send('Error creating user');
+    res.status(500).send({ message: 'Error creating user'});
   }
 });
 
@@ -63,7 +65,7 @@ app.post('/login', async (req, res) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      res.status(200).send('Success');
+      res.status(200).send({message: 'Success'});
     } else {
       res.status(500).send('Not Allowed');
     }
@@ -116,7 +118,7 @@ app.get('/userexists/:username', async (req, res) => {
   try {
     const user = await User.findOne({ username: username });
     if (user != null) {
-      res.status(200).send('User exists');
+      res.status(200).send({ message: 'User exists' });
     } else {
       res.status(404).send('User does not exist');
     }
