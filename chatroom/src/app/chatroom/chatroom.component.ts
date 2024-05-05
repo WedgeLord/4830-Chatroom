@@ -47,6 +47,8 @@ export class ChatroomComponent implements OnInit, OnDestroy {
       };
       this.chatService.sendMessage(chat);
     }
+
+    this.message = "";
   }
 
   LoadChat(user: String){
