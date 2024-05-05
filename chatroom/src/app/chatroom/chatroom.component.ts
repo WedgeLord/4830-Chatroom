@@ -43,7 +43,7 @@ export class ChatroomComponent implements OnInit, OnDestroy {
         sender: '',
         recipient: this.recipient,
         content: this.message,
-        time: Date.now(),  // idk the best way to get time, this just counts the milliseconds after midnight
+        time: Date.now(),  
       };
       this.chatService.sendMessage(chat);
     }

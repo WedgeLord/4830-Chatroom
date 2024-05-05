@@ -22,11 +22,11 @@ export class ChatroomService {
   getMessages(recipient: String) {
     this.http.get< {message: String, chats: Post[] }>("http://localhost:3000/history/" + this.username + "/" + recipient).subscribe( (res) => {
       //console.log(res);
-      this.posts = res.chats;
-      // this.posts.sort((a, b) => { return a.time - b.time });
-      this.postsUpdate.next([...this.posts]);
       console.log(res.message);
+      this.posts = res.chats;
       console.log(res.chats);
+      this.posts.sort((a, b) => { return a.time - b.time });
+      this.postsUpdate.next([...this.posts]);
     });
   }
 
