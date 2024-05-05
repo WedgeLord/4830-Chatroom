@@ -29,6 +29,7 @@ export class ChatroomService {
 
   // sendMessage(sender: string, recipient: string, content: string) {
   sendMessage(post: Post) {
+    post.sender = this.username;
     this.http.post<{message: string}>("http://localhost:3000/send", post).subscribe( (res) => {
       // if post succeeds, we update our chat history
       this.posts.push(post);
