@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 })
 
 export class ChatroomService {
-  username: string = "";
+  username: String = "";
   private posts: Post[] = []; // our array of posts
   private users: String[] = []; //our array of users
 
@@ -19,8 +19,8 @@ export class ChatroomService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getMessages(recipient: string) {
-    this.http.get< {message: string, chats: Post[] }>("http://localhost:3000/history/" + this.username + "/" + recipient).subscribe( (res) => {
+  getMessages(recipient: String) {
+    this.http.get< {message: String, chats: Post[] }>("http://localhost:3000/history/" + this.username + "/" + recipient).subscribe( (res) => {
       this.posts = res.chats;
       this.posts.sort((a, b) => { return a.time - b.time });
       this.postsUpdate.next([...this.posts]);
@@ -32,7 +32,7 @@ export class ChatroomService {
   // sendMessage(sender: string, recipient: string, content: string) {
   sendMessage(post: Post) {
     post.sender = this.username;
-    this.http.post<{message: string}>("http://localhost:3000/send", post).subscribe( (res) => {
+    this.http.post<{message: String}>("http://localhost:3000/send", post).subscribe( (res) => {
       // if post succeeds, we update our chat history
       this.posts.push(post);
       this.postsUpdate.next([...this.posts]);
@@ -41,16 +41,16 @@ export class ChatroomService {
   }
 
   getUsers() {
-    return this.http.get< {message: string, users: string[] }>("http://localhost:3000/directory").subscribe( (res) => {
+    return this.http.get< {message: String, users: String[] }>("http://localhost:3000/directory").subscribe( (res) => {
+      console.log(res.users);
       this.users = res.users;
       this.usersUpdate.next([...this.users]);
       console.log(res.message);
-      console.log(res.users);
       // update subject for user list
   });
 }
 
-  userExists(username: string): Promise<boolean> {
+  userExists(username: String): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.http.get(`http://localhost:3000/userexists/${username}`).subscribe(
         (res) => {
@@ -74,9 +74,9 @@ export class ChatroomService {
   }
 
 
-  login(username: string, password: string): Promise<boolean> {
+  login(username: String, password: String): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      this.http.post<{message: string}>("http://localhost:3000/login", { username: username, password: password}).subscribe(
+      this.http.post<{message: String}>("http://localhost:3000/login", { username: username, password: password}).subscribe(
         (res) => {
           // if login succeeds, we navigate to chatroom
           this.username = username;
@@ -98,8 +98,8 @@ export class ChatroomService {
     })
   }
 
-  createAccount(username: string, password: string) {
-    this.http.post<{message: string}>("http://localhost:3000/createaccount", { username: username, password: password}).subscribe( (res) => {
+  createAccount(username: String, password: String) {
+    this.http.post<{message: String}>("http://localhost:3000/createaccount", { username: username, password: password}).subscribe( (res) => {
       // if account creation succeeds, we navigate to chatroom
       this.username = username;
       this.router.navigate(["/chat"]);
@@ -112,6 +112,9 @@ export class ChatroomService {
     this.router.navigate([""]);
   }
 
+  getUserUpdateListener() {
+    return this.usersUpdate.asObservable();
+  }
   getPostUpdateListener() {
     return this.postsUpdate.asObservable();
   }

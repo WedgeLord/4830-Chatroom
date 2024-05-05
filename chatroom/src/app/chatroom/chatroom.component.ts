@@ -25,11 +25,12 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   updateInterval = timer(0, 5000);
   updateSub: Subscription = new Subscription;
   postsSub: Subscription = new Subscription;
-  sender: string = "";
-  recipient: string = "";
-  message: string = "";
+  usersSub: Subscription = new Subscription;
+  sender: String = "";
+  recipient: String = "";
+  message: String = "";
 
-  users: string[]=[];
+  users: String[]=[];
 
   constructor(public chatService: ChatroomService) {
 
@@ -48,9 +49,11 @@ export class ChatroomComponent implements OnInit, OnDestroy {
     }
   }
 
-  LoadChat(user: string){
-    this.recipient = user;
-    this.chatService.getMessages(this.recipient);
+  LoadChat(user: String){
+    if (this.recipient != "") {
+      this.recipient = user;
+      this.chatService.getMessages(this.recipient);
+    }
   }
 
   logout() {
@@ -64,7 +67,10 @@ export class ChatroomComponent implements OnInit, OnDestroy {
     }
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;
+    });
         // update user list too
+    this.usersSub = this.chatService.getUserUpdateListener().subscribe((users: String[]) =>{
+        this.users = users;
     });
     // updates user list Subject and chat history Subject every 5 seconds
     this.updateSub = this.updateInterval.subscribe( () => { 
@@ -78,6 +84,7 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.postsSub.unsubscribe();
     this.updateSub.unsubscribe();
+    this.usersSub.unsubscribe();
   }
 
 }

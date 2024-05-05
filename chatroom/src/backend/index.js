@@ -61,9 +61,11 @@ app.get('/directory', async (req, res) => {
   try {
     console.log('API getting all users');
     const users = await User.find({});
+    // console.log(users);
     if (users != null) {
-      let usernames = users.map(user => user.username);
-      res.status(200).send({ message: "users found", usernames: usernames });
+      let usernames = users.map(user => {return user.username});
+      console.log(usernames);
+      res.status(200).send({ message: "users found", users: usernames });
     }
     else {
       res.status(404).send({ message: 'No users found' });

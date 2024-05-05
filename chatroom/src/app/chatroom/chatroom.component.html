@@ -2,7 +2,7 @@
     <div class="sidebar">
         <h3>Users</h3>
         <ul class="user-list" *ngFor="let user of users">
-          <li (click)="LoadChat(user)">{{ user }}</li>
+          <button ><li (click)="LoadChat(user)">{{ user }}</li></button>
         </ul>
     </div>
     <div class="chat-area">
