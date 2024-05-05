@@ -1,10 +1,8 @@
 <div class="chatroom-container">
     <div class="sidebar">
         <h3>Users</h3>
-        <ul class="user-list">
-            <li>User 1</li>
-            <li>User 2</li>
-            <!-- More users -->
+        <ul class="user-list" *ngFor="let user of users">
+          <li (click)="LoadChat(user)">{{ user }}</li>
         </ul>
     </div>
     <div class="chat-area">
@@ -12,10 +10,8 @@
             <h2>Chatroom</h2>
             <button class="logout" routerLink="">Logout</button>
         </div>
-        <ul class="messages">
-            <li><strong>User 1:</strong> Hello!</li>
-            <li><strong>User 2:</strong> Hi there!</li>
-            <!-- More messages -->
+        <ul class="messages" *ngFor="let post of posts">
+            <li><strong>{{post.sender}}:</strong>{{post.content}}</li>
         </ul>
         <div class="message-input">
             <input type="text" placeholder="Type a message...">

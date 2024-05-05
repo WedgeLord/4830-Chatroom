@@ -57,6 +57,24 @@ app.post('/createaccount', async (req, res) => {
   }
 });
 
+app.get('/getusers', async (req, res) => {
+  try {
+    console.log('API getting all users');
+    const users = await User.find({});
+    if (users != null) {
+      let usernames = users.map(user => user.username);
+      res.status(200).send({ usernames: usernames });
+    }
+    else {
+      res.status(404).send({ message: 'No users found' });
+    }
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send({ message: 'Error getting users'});
+  }
+});
+
 app.post('/login', async (req, res) => {
   console.log('API logging in');
   const user = await User.findOne({ username: req.body.username });
@@ -86,7 +104,7 @@ app.get('/history/:user/:target', async (req, res) => {
     //   recipient: req.query.recipient
         sender: sender,
         recipient: recipient
-    });
+    }).sort({time: 1});
     res.status(200).json(messages);
   }
   catch (error) {

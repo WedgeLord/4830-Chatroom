@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';  // If using forms within the chatroom
+import { NgFor } from '@angular/common';
 
 import { Post } from '../chatroom.models'; // interface/model of post
 import { Subscription, timer } from 'rxjs'; // to access posts from services
@@ -24,6 +25,8 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   sender: string = "";
   recipient: string = "";
 
+  users: string[]=[];
+
   constructor(public chatService: ChatroomService) {
 
   }
@@ -42,11 +45,16 @@ export class ChatroomComponent implements OnInit, OnDestroy {
     }
   }
 
+  LoadChat(user: string){
+    // set the chat array based on user (service call)
+  }
+
   logout() {
       this.chatService.logout();
   }
 
   ngOnInit(){
+    // set the users array
     if (this.chatService.username == "") {
       this.logout();
     }
@@ -67,6 +75,6 @@ export class ChatroomComponent implements OnInit, OnDestroy {
     this.postsSub.unsubscribe();
     this.updateSub.unsubscribe();
   }
-  
+
 }
 
