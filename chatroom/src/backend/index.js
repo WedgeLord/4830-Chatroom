@@ -104,7 +104,7 @@ app.get('/history/:user/:target', async (req, res) => {
     //   recipient: req.query.recipient
         sender: sender,
         recipient: recipient
-    });
+    }).sort({time: 1});
     res.status(200).json(messages);
   }
   catch (error) {
