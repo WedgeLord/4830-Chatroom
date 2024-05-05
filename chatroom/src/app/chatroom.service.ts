@@ -37,6 +37,13 @@ export class ChatroomService {
     });
   }
 
+  getUsers() {
+    return this.http.get< {message: string, users: string[] }>("http://localhost:3000/directory").subscribe( (res) => {
+      console.log(res.message);
+      // update subject for user list
+  });
+}
+
   userExists(username: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.http.get(`http://localhost:3000/userexists/${username}`).subscribe(

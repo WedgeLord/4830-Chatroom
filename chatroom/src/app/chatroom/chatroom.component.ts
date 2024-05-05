@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';  // If using forms within the chatroom
 
 import { Post } from '../chatroom.models'; // interface/model of post
-import { Subscription } from 'rxjs'; // to access posts from services
+import { Subscription, timer } from 'rxjs'; // to access posts from services
 import { ChatroomService } from '../chatroom.service'; // service for the chatroom
 import { RouterLink } from '@angular/router';  // If using RouterLink within the chatroom
 
@@ -18,6 +18,8 @@ import { RouterLink } from '@angular/router';  // If using RouterLink within the
 export class ChatroomComponent implements OnInit, OnDestroy {
 
   posts: Post[]=[];
+  updateInterval = timer(0, 5000);
+  updateSub: Subscription = new Subscription;
   postsSub: Subscription = new Subscription;
   sender: string = "";
   recipient: string = "";
@@ -50,13 +52,20 @@ export class ChatroomComponent implements OnInit, OnDestroy {
     }
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;
+        // update user list too
     });
-    // this should be called when a recipient is selected, not on init
-    // this.chatService.getMessages(this.sender, this.recipient);
+    // updates user list and chat history every 5 seconds
+    this.updateSub = this.updateInterval.subscribe( () => { 
+      if (this.recipient != "") {
+        this.chatService.getMessages(this.recipient);
+      }
+      this.chatService.getUsers();
+    });
   }
 
   ngOnDestroy() {
     this.postsSub.unsubscribe();
+    this.updateSub.unsubscribe();
   }
   
 }
