@@ -50,8 +50,9 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   }
 
   LoadChat(user: String){
+    console.log(user);
+    this.recipient = user;
     if (this.recipient != "") {
-      this.recipient = user;
       this.chatService.getMessages(this.recipient);
     }
   }

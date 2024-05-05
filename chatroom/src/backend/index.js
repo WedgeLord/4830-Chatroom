@@ -99,7 +99,7 @@ app.post('/login', async (req, res) => {
 app.get('/history/:user/:target', async (req, res) => {
   sender = req.params.user;
   recipient = req.params.target;
-  console.log('API getting chats for ' + targetUser);
+  console.log('API getting chats for ' + recipient);
   try {
     const messages = await Message.find({
     //   sender: req.query.sender,
