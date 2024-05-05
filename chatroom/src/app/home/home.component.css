@@ -1,18 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #333;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+  color: #FFF;
+  overflow: hidden; /* Adds this to prevent any scrolling caused by margin/padding */
+}
+
 .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  input[type="text"] {
-    margin: 20px 0;
-    padding: 10px;
-    width: 200px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #4A90E2;
+  border: 5px solid #000;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  width: 30%;
+  min-width: 300px;
+  height: auto;
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+input[type="text"], input[type="password"] {
+  padding: 10px;
+  width: 80%; /* Relative to parent's width */
+  margin: 10px 0;
+  border: 2px solid #000;
+  border-radius: 5px;
+  background-color: #FFF;
+  color: #333;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #000;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 100%; /* Makes the button expand to fill the container width */
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555;
+}

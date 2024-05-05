@@ -1,7 +1,10 @@
 <div class="home-container">
-    <h1>Welcome to Our Chatroom!</h1>
-    <p>Please enter as a guest or login (feature coming soon).</p>
-    <input type="text" placeholder="Enter your username" [(ngModel)]="username"/>
-    <a routerLink="/chat"><button (click)="loginAttempt()">Enter Chatroom</button></a>
-    <!-- Future login form can go here -->
+  <h1>Welcome to Our Chatroom!</h1>
+  <p>Please enter your details to continue.</p>
+
+  <input type="text" placeholder="Enter your username" [(ngModel)]="username">
+  <input type="password" placeholder="Enter your password" [(ngModel)]="password">
+
+  <button (click)="loginAttempt()">Login</button> <!-- Updated this line -->
+  <button (click)="createAccount()">Create Account</button>
 </div>
