@@ -27,6 +27,7 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   postsSub: Subscription = new Subscription;
   sender: string = "";
   recipient: string = "";
+  message: string = "";
 
   users: string[]=[];
 
@@ -35,16 +36,15 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   }
 
 
-  onSendMessage(form: NgForm) {
+  onSendMessage() {
     if (this.recipient != "") {
       let chat: Post = {
-        sender: this.sender,
+        sender: '',
         recipient: this.recipient,
-        content: form.value.content,
+        content: this.message,
         time: Date.now(),  // idk the best way to get time, this just counts the milliseconds after midnight
       };
       this.chatService.sendMessage(chat);
-      form.resetForm;
     }
   }
 

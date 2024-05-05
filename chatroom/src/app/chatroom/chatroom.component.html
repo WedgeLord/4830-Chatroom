@@ -14,8 +14,8 @@
             <li><strong>{{post.sender}}:</strong>{{post.content}}</li>
         </ul>
         <div class="message-input">
-            <input type="text" placeholder="Type a message...">
-            <button>Send</button>
+            <input type="text" placeholder="Type a message..." [(ngModel)]="message">
+            <button (click)="onSendMessage()">Send</button>
         </div>
     </div>
 </div>
