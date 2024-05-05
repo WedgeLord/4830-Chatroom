@@ -26,13 +26,16 @@
     align-items: center;
 }
 
+.message-box {
+    overflow-y: scroll;
+}
 .messages {
     flex-grow: 1;
-    overflow-y: scroll;
     margin: 20px 0;
 }
 
 .message-input {
+    width: 90%;
     display: flex;
 }
 
@@ -44,4 +47,8 @@ input, button {
 ul {
     list-style: none;
     padding: 0;
+}
+
+.user-list > button {
+    width: 90%;
 }

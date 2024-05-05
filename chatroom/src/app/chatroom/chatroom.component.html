@@ -10,9 +10,11 @@
             <h2>Chatroom</h2>
             <button class="logout" routerLink="">Logout</button>
         </div>
+        <div class="message-box">
         <ul class="messages" *ngFor="let post of posts">
             <li><strong>{{post.sender}}:</strong>{{post.content}}</li>
         </ul>
+        </div>
         <div class="message-input">
             <input type="text" placeholder="Type a message..." [(ngModel)]="message">
             <button (click)="onSendMessage()">Send</button>

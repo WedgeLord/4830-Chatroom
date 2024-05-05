@@ -25,7 +25,7 @@ export class ChatroomService {
       console.log(res.message);
       this.posts = res.chats;
       console.log(res.chats);
-      this.posts.sort((a, b) => { return a.time - b.time });
+      this.posts = this.posts.sort((a, b) => a.time - b.time );
       this.postsUpdate.next([...this.posts]);
     });
   }
