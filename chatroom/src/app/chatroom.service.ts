@@ -36,18 +36,57 @@ export class ChatroomService {
     });
   }
 
-  login(username: string, password: string) {
-    this.http.post<{message: string}>("http://localhost:3000/login", { username: username, password: password}).subscribe( (res) => {
-      // if login succeeds, we navigate to chatroom
-      this.router.navigate(["http://localhost:3000/chat"]);
-      console.log(res.message);
-  });
+  userExists(username: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http.get(`http://localhost:3000/userexists/${username}`).subscribe(
+        (res) => {
+          console.log('User exists');
+          resolve(true);
+        },
+        (error) => {
+          if (error.status === 404) {
+            console.log('User does not exist');
+            resolve(false);
+          } else if (error.status === 500) {
+            console.log('Error checking user');
+            reject(error);
+          } else {
+            console.log('An unexpected error occurred');
+            reject(error);
+          }
+        }
+      );
+    });
+  }
+
+
+  login(username: string, password: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.http.post<{message: string}>("http://localhost:3000/login", { username: username, password: password}).subscribe(
+        (res) => {
+          // if login succeeds, we navigate to chatroom
+          this.router.navigate(["http://localhost:4200/chat"]);
+          console.log(res.message);
+          resolve(true);
+        },
+        (error) => {
+          if (error.status === 400) {
+            console.log('Bad Request: ', error.error.message);
+          } else if (error.status === 500) {
+            console.log('Internal Server Error: ', error.error.message);
+          } else {
+            console.log('An unexpected error occurred: ', error.error.message);
+          }
+          resolve(false);
+        }
+      );
+    })
   }
 
   createAccount(username: string, password: string) {
     this.http.post<{message: string}>("http://localhost:3000/createaccount", { username: username, password: password}).subscribe( (res) => {
       // if account creation succeeds, we navigate to chatroom
-      this.router.navigate(["http://localhost:3000/chat"]);
+      this.router.navigate(["http://localhost:4200/chat"]);
       console.log(res.message);
     });
   }
