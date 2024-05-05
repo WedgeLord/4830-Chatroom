@@ -63,7 +63,7 @@ app.get('/directory', async (req, res) => {
     const users = await User.find({});
     if (users != null) {
       let usernames = users.map(user => user.username);
-      res.status(200).send({ usernames: usernames });
+      res.status(200).send({ message: "users found", usernames: usernames });
     }
     else {
       res.status(404).send({ message: 'No users found' });
@@ -79,13 +79,13 @@ app.post('/login', async (req, res) => {
   console.log('API logging in');
   const user = await User.findOne({ username: req.body.username });
   if (user == null) {
-    return res.status(400).send('Cannot find user');
+    return res.status(400).send({ message: 'Cannot find user' });
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       res.status(200).send({message: 'Success'});
     } else {
-      res.status(500).send('Not Allowed');
+      res.status(500).send({message: 'Not Allowed'});
     }
   }
   catch (error) {
@@ -109,7 +109,7 @@ app.get('/history/:user/:target', async (req, res) => {
   }
   catch (error) {
     console.log(error);
-    res.status(500).send('Error retrieving messages');
+    res.status(500).send({message: 'Error retrieving messages'});
   }
 });
 
@@ -122,11 +122,11 @@ app.post('/send', async (req, res) => {
       content: req.body.content,
     });
     await message.save();
-    res.status(201).send('Message sent successfully');
+    res.status(201).send({message: 'Message sent successfully'});
   }
   catch (error) {
     console.log(error);
-    res.status(500).send('Error sending message');
+    res.status(500).send({ message: 'Error sending message'});
   }
 });
 
@@ -138,46 +138,11 @@ app.get('/userexists/:username', async (req, res) => {
     if (user != null) {
       res.status(200).send({ message: 'User exists' });
     } else {
-      res.status(404).send('User does not exist');
+      res.status(404).send({message: 'User does not exist'});
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send('Error checking user');
+    res.status(500).send({message: 'Error checking user'});
   }
 });
 
-
-/*
-
-// OLD CODE, CAN DELETE
-
-app.get('/user/:user', (req, res) => {
-    targetUser = req.params.user
-    // add code for getting database chat history of user
-    chats = {
-        // {
-            // sender:,
-            // chats:
-        // }
-    };
-    res.status(201).json({
-        message: "Chat history updated successfully",
-        history: chats
-    });
-});
-
-app.post('/user/:targetUser', (req, res) => {
-    targetUser = req.params.targetUser
-    chat = req.message;
-    // add code for updating target user's chatroom
-    res.status(201).json({
-        message: "Chat sent to user " + targetUser + " successfully"
-    });
-});
-
-app.use('/api/chatroom', require('./routes/chatroom'));
-app.use('/chatroom', chatroomRoutes);
-app.use('/auth', authRoutes);
-*/
-
-module.exports = app

@@ -49,7 +49,8 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   }
 
   LoadChat(user: string){
-    // set the chat array based on user (service call)
+    this.recipient = user;
+    this.chatService.getMessages(this.recipient);
   }
 
   logout() {
@@ -65,8 +66,8 @@ export class ChatroomComponent implements OnInit, OnDestroy {
         this.posts = posts;
         // update user list too
     });
-    // updates user list and chat history every 5 seconds
-    this.updateSub = this.updateInterval.subscribe( () => {
+    // updates user list Subject and chat history Subject every 5 seconds
+    this.updateSub = this.updateInterval.subscribe( () => { 
       if (this.recipient != "") {
         this.chatService.getMessages(this.recipient);
       }
