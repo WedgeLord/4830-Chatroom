@@ -27,11 +27,15 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   }
 
   createAccount(username: string, password: string) {
+    if (username == "" || password == "") return;
+    this.chatService.username = username;
     this.sender = username;
     this.chatService.createAccount(username, password);
   }
 
   login(username: string, password: string) {
+    if (username == "" || password == "") return;
+    this.chatService.username = username;
     this.sender = username;
     this.chatService.login(username, password);
   }
@@ -51,10 +55,14 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(){
+    if (this.chatService.username == "") {
+      this.chatService.logout();
+    }
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;
     });
-    this.chatService.getMessages(this.sender, this.recipient);
+    // this should be called when a recipient is selected, not on init
+    // this.chatService.getMessages(this.sender, this.recipient);
   }
 
   ngOnDestroy() {
