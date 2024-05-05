@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';  // If using forms within the chatroom
 import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { Post } from '../chatroom.models'; // interface/model of post
 import { Subscription, timer } from 'rxjs'; // to access posts from services
@@ -10,11 +12,12 @@ import { RouterLink } from '@angular/router';  // If using RouterLink within the
 @Component({
   selector: 'app-chatroom',
   standalone: true,
-  imports: [RouterLink],  // Include necessary imports
+  imports: [RouterLink, CommonModule, NgFor, FormsModule],  // Include necessary imports
   // imports: [RouterLink, FormsModule],  // Include necessary imports
   templateUrl: './chatroom.component.html',
   styleUrls: ['./chatroom.component.css']
 })
+
 
 export class ChatroomComponent implements OnInit, OnDestroy {
 
@@ -63,7 +66,7 @@ export class ChatroomComponent implements OnInit, OnDestroy {
         // update user list too
     });
     // updates user list and chat history every 5 seconds
-    this.updateSub = this.updateInterval.subscribe( () => { 
+    this.updateSub = this.updateInterval.subscribe( () => {
       if (this.recipient != "") {
         this.chatService.getMessages(this.recipient);
       }

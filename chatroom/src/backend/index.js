@@ -57,7 +57,7 @@ app.post('/createaccount', async (req, res) => {
   }
 });
 
-app.get('/getusers', async (req, res) => {
+app.get('/directory', async (req, res) => {
   try {
     console.log('API getting all users');
     const users = await User.find({});
