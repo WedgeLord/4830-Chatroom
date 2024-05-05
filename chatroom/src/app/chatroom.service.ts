@@ -17,8 +17,8 @@ export class ChatroomService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getMessages(sender: string, recipient: string) {
-    this.http.get< {message: string, chats: Post[] }>("http://localhost:3000/history/" + sender + "/" + recipient).subscribe( (res) => {
+  getMessages(recipient: string) {
+    this.http.get< {message: string, chats: Post[] }>("http://localhost:3000/history/" + this.username + "/" + recipient).subscribe( (res) => {
       this.posts = res.chats;
       this.posts.sort((a, b) => { return a.time - b.time });
       this.postsUpdate.next([...this.posts]);
@@ -66,7 +66,8 @@ export class ChatroomService {
       this.http.post<{message: string}>("http://localhost:3000/login", { username: username, password: password}).subscribe(
         (res) => {
           // if login succeeds, we navigate to chatroom
-          this.router.navigate(["http://localhost:4200/chat"]);
+          this.username = username;
+          // this.router.navigate(["/chat"]);
           console.log(res.message);
           resolve(true);
         },
@@ -87,15 +88,15 @@ export class ChatroomService {
   createAccount(username: string, password: string) {
     this.http.post<{message: string}>("http://localhost:3000/createaccount", { username: username, password: password}).subscribe( (res) => {
       // if account creation succeeds, we navigate to chatroom
-      this.router.navigate(["http://localhost:4200/chat"]);
+      this.username = username;
+      // this.router.navigate(["/chat"]);
       console.log(res.message);
     });
   }
 
   logout() {
     this.username = "";
-    // this.router.navigate([""]);
-    this.router.navigate(["http://localhost:4200/"]);
+    this.router.navigate([""]);
   }
 
   getPostUpdateListener() {

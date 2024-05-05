@@ -26,19 +26,6 @@ export class ChatroomComponent implements OnInit, OnDestroy {
 
   }
 
-  createAccount(username: string, password: string) {
-    if (username == "" || password == "") return;
-    this.chatService.username = username;
-    this.sender = username;
-    this.chatService.createAccount(username, password);
-  }
-
-  login(username: string, password: string) {
-    if (username == "" || password == "") return;
-    this.chatService.username = username;
-    this.sender = username;
-    this.chatService.login(username, password);
-  }
 
   onSendMessage(form: NgForm) {
     if (this.recipient != "") {
@@ -48,15 +35,18 @@ export class ChatroomComponent implements OnInit, OnDestroy {
         content: form.value.content,
         time: Date.now(),  // idk the best way to get time, this just counts the milliseconds after midnight
       };
-      // this.chatService.sendMessage(form.value.sender, form.value.recipient, form.value.content);
       this.chatService.sendMessage(chat);
       form.resetForm;
     }
   }
 
+  logout() {
+      this.chatService.logout();
+  }
+
   ngOnInit(){
     if (this.chatService.username == "") {
-      this.chatService.logout();
+      this.logout();
     }
     this.postsSub = this.chatService.getPostUpdateListener().subscribe((posts: Post[]) =>{
         this.posts = posts;

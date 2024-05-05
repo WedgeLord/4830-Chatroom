@@ -12,6 +12,7 @@ import { ChatroomService } from '../chatroom.service';
 })
 export class HomeComponent {
   username: string = '';  // Store username input
+  password: string = '';
   constructor(public chatService: ChatroomService) {}
 
   loginAttempt(){
@@ -19,13 +20,24 @@ export class HomeComponent {
       .then(exists => {
         if (exists) {
           console.log('User exists');
+          this.login(this.username, this.password);
+          // what if password fails?
         } else {
           console.log('User does not exist');
         }
-
-
-
       })
+  }
+
+  // createAccount(username: string, password: string) {
+  createAccount() {
+    // if (username == "" || password == "") return;
+    if (this.username == "" || this.password == "") return;
+    this.chatService.createAccount(this.username, this.password);
+  }
+
+  login(username: string, password: string) {
+    if (username == "" || password == "") return;
+    this.chatService.login(username, password);
   }
 
 }
