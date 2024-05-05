@@ -101,15 +101,22 @@ app.get('/history/:user/:target', async (req, res) => {
   recipient = req.params.target;
   console.log('API getting chats between ' + sender + ' and ' + recipient);
   try {
-    const from = await Message.find({
-        sender: sender,
-        recipient: recipient,
-    });
-    const to = await Message.find({
-        sender: recipient,
-        recipient: sender
-    });
-    let messages = [...from, ...to];
+    const db_messages = await Message.find({
+      $or: [
+          { sender: sender, recipient: recipient },
+          { sender: recipient, recipient: sender }
+      ]
+    }).sort({ time: 1 });
+    //const from = await Message.find({
+    //    sender: sender,
+    //    recipient: recipient,
+    //});
+    //const to = await Message.find({
+    //    sender: recipient,
+    //    recipient: sender
+    //});
+    //let messages = [...from, ...to];
+    let messages = [...db_messages];
     res.status(200).send({message: "got chat history", chats: messages});
   }
   catch (error) {
