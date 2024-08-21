@@ -1,5 +1,7 @@
 # 4830-Chatroom
 # Get Started:
+Start up a Mongoose Database and put the URI and Secret Key in the configuration file located in `src/config.js`
+
 Download dependencies with `npm i`
 
 Start one terminal and run `npm run start-backend`. This starts the server.
