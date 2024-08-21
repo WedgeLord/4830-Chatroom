@@ -1,6 +1,6 @@
 # 4830-Chatroom
 # Get Started:
-Start up a Mongoose Database and put the URI and Secret Key in the configuration file located in `src/config.js`
+Start up a Mongoose Database and put the URI and Secret Key in the configuration file located in `chatroom/src/config.js`
 
 Download dependencies with `npm i`
 
