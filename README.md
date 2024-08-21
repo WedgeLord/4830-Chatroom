@@ -1,8 +1,14 @@
 # 4830-Chatroom
-Download dependencies with 'npm i'
-Start one terminal with ‘ng serve’
-Start a second terminal with ‘npm run start-backend’
+# Get Started:
+Download dependencies with `npm i`
+
+Start one terminal and run `npm run start-backend`. This starts the server.
+
+In a second terminal, run `ng serve`. This can be run on any computer to connect to the server.
+
 Navigate to http://localhost:4200/home
+
+# Short Description
 
 A chatroom with an account creation/login page, a chatroom page, and an error 404 page. Users can select one of the other users in the database and strike up a conversation. Users can log out anytime.
 
